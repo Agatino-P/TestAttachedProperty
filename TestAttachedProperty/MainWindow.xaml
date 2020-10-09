@@ -9,7 +9,14 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
-    <Grid>
-        <local:ControlWithAttachedDP />
-    </Grid>
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    <StackPanel>
+        <Button
+            Command="{Binding MBCmd}"
+            CommandParameter="MB Button"
+            Content="MB" />
+        <local:ControlWithAttachedDP RCDP="{Binding MBCmd}" />
+    </StackPanel>
 </Window>

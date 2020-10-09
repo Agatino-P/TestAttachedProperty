@@ -17,11 +17,32 @@
             local:ControlWithAttachedDP.AttachedDP="2"
             Click="Btn2_Click">
             <TextBlock>
-                <Run Text="One:" />
+                <Run Text="AttachedDP:" />
                 <Run Text="{Binding ElementName=Btn2, Path=(local:ControlWithAttachedDP.AttachedDP)}" />
             </TextBlock>
         </Button>
         <Button Content="Zero" />
-        <Button local:ControlWithAttachedDP.AttachedDP="8" Content="Eight" />
+        <Button
+            x:Name="Btn8"
+            local:ControlWithAttachedDP.AttachedDP="8"
+            local:ControlWithAttachedDP.AttachedRC="{Binding ElementName=CWADP, Path=RCDP}"
+            Click="Btn8_Click">
+            <TextBlock>
+                <Run Text="AttachedDP:" />
+                <Run Text="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=(local:ControlWithAttachedDP.AttachedDP)}" />
+            </TextBlock>
+        </Button>
+        <Button
+            x:Name="Btn16"
+            local:ControlWithAttachedDP.AttachedDP="16"
+            local:ControlWithAttachedDP.AttachedRC="{Binding ElementName=CWADP, Path=RCDP}"
+            Command="{Binding ElementName=CWADP, Path=RCDP}"
+            CommandParameter="{Binding ElementName=Btn16, Path=(local:ControlWithAttachedDP.AttachedDP)}">
+            <TextBlock>
+                <Run Text="AttachedDP:" />
+                <Run Text="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=(local:ControlWithAttachedDP.AttachedDP)}" />
+            </TextBlock>
+        </Button>
+
     </StackPanel>
 </UserControl>

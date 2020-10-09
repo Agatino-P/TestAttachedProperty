@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TestAttachedProperty
 {
@@ -23,8 +13,8 @@ namespace TestAttachedProperty
 
         public int DPCounter
         {
-            get { return (int)GetValue(DPCounterProperty); }
-            set { SetValue(DPCounterProperty, value); }
+            get => (int)GetValue(DPCounterProperty);
+            set => SetValue(DPCounterProperty, value);
         }
         public static readonly DependencyProperty DPCounterProperty =
             DependencyProperty.Register("DPCounter", typeof(int), typeof(ControlWithAttachedDP), new PropertyMetadata(0));
@@ -41,7 +31,34 @@ namespace TestAttachedProperty
             obj.SetValue(AttachedDPProperty, value);
         }
         public static readonly DependencyProperty AttachedDPProperty =
-            DependencyProperty.RegisterAttached("AttachedDP", typeof(int), typeof(ControlWithAttachedDP), new PropertyMetadata(0));
+            DependencyProperty.RegisterAttached("AttachedDP", typeof(int), typeof(ControlWithAttachedDP), new PropertyMetadata(null));
+
+
+
+        public RelayCommand<int> RCDP
+        {
+            get { return (RelayCommand<int>)GetValue(RCDPProperty); }
+            set { SetValue(RCDPProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RCDP.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RCDPProperty =
+            DependencyProperty.Register("RCDP", typeof(RelayCommand<int>), typeof(ControlWithAttachedDP), new PropertyMetadata(null));
+
+
+
+        public static RelayCommand<int> GetAttachedRC(DependencyObject obj)
+        {
+            return (RelayCommand<int>)obj.GetValue(AttachedRCProperty);
+        }
+
+        public static void SetAttachedRC(DependencyObject obj, RelayCommand<int> value)
+        {
+            obj.SetValue(AttachedRCProperty, value);
+        }
+        public static readonly DependencyProperty AttachedRCProperty =
+            DependencyProperty.RegisterAttached("AttachedRC", typeof(RelayCommand<int>), typeof(ControlWithAttachedDP), new PropertyMetadata(null));
+
 
 
         public ControlWithAttachedDP()
@@ -52,7 +69,9 @@ namespace TestAttachedProperty
         private void CWADP_Loaded(object sender, RoutedEventArgs e)
         {
             if (Content == null)
+            {
                 return;
+            }
 
             Panel panel = Content as Panel;
 
@@ -76,6 +95,16 @@ namespace TestAttachedProperty
             MessageBox.Show(oldValue.ToString());
             oldValue++;
             SetAttachedDP((sender as Button), oldValue);
+        }
+
+        private void Btn8_Click(object sender, RoutedEventArgs e)
+        {
+            int attachedValue = GetAttachedDP(sender as Button);
+            var relayCommand = GetAttachedRC(sender as Button);
+            if (relayCommand != null)
+            {
+                relayCommand.Execute(attachedValue);
+            }
         }
     }
 }
