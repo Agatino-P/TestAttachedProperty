@@ -33,11 +33,10 @@
             </TextBlock>
         </Button>
         <Button
-            x:Name="Btn16"
             local:ControlWithAttachedDP.AttachedDP="16"
             local:ControlWithAttachedDP.AttachedRC="{Binding ElementName=CWADP, Path=RCDP}"
             Command="{Binding ElementName=CWADP, Path=RCDP}"
-            CommandParameter="{Binding ElementName=Btn16, Path=(local:ControlWithAttachedDP.AttachedDP)}">
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=(local:ControlWithAttachedDP.AttachedDP)}">
             <TextBlock>
                 <Run Text="AttachedDP:" />
                 <Run Text="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=(local:ControlWithAttachedDP.AttachedDP)}" />
